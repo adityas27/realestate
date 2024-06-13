@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'landing.css' %}">{% endblock css %}
+
+{% block content %}
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="/media/1.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Why us?</h1>
+      <p class="lead">Choose us for our unmatched expertise and personalized service. With a diverse portfolio of properties, we ensure you find your perfect home. Our transparent, client-centric approach builds trust and satisfaction. Experience advanced search tools and cutting-edge technology for a seamless real estate journey. Let our proven success and market insights guide you to your dream property.</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="btn btn-outline-primary btn-lg px-4 me-md-2">Know More</button>
+      </div>
+    </div>
+  </div>
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Contact Form</h1>
+      <p class="lead">Get call from us for information in more personalized way😉. We usually get back to requests with 48hrs</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="btn btn-outline-success btn-lg px-4 me-md-2">Ask for callback</button>
+      </div>
+    </div>
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="/media/1.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+  </div>
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col">
+      <h1 class="display-5 fw-bold lh-1 mb-3">About us</h1>
+      <p class="lead">Get call from us for information in more personalized way😉. We usually get back to requests with 48hrs</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="btn btn-outline-success btn-lg px-4 me-md-2">Ask for callback</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

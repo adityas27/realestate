@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'details.css' %}">{% endblock css %}
+{% block content %}
+
+<form class="container p-5 mt-2 mb-2" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        Images
+        <input type="file" class="form-control" name="images" required multiple />
+    </p>
+    <hr>
+    <input class="btn btn-outline-success w-100" type="submit">
+</form>
+<div class="row mt-5">
+    <div class="col-md-7">
+        <img src="{{property.thumbnail.url}}" alt="project-image" class="rounded">
+        <div class="project-info-box">
+            <p><b>Address:</b> {{property.location.address_1}} {{property.location.address_2}}
+                {{property.location.address_3}} {{property.location.address_4}}</p>
+            <p><b>Details:</b> {{property.dimensions.beds}} bed(s) - {{property.dimensions.baths}} bath(s) - {{property.dimensions.garage}} garage(s)</p>
+        </div><!-- / project-info-box -->
+    </div><!-- / column -->
+    <div class="col-md-5">
+        <div class="project-info-box mt-0">
+            <h5>PROJECT DETAILS</h5>
+            <p class="mb-0">{{property.desc}}</p>
+        </div><!-- / project-info-box -->
+
+        <div class="project-info-box">
+            <p><b>Price:</b> {{property.price|intword}}</p>
+            <p><b>Type:</b> {{property.prop_type|title}}</p>
+            <p><b>Area: </b> {{property.dimensions.area}} sq ft.</p>
+            <p><b>Lot Area: </b> {{property.dimensions.lot_area}} sq ft.</p>
+            <p><b>Year built:</b> {{property.year_built}}</p>
+            <p><b>City(Pincode):</b> {{property.location.city}}({{property.location.pincode}})</p>
+            <p><b>Ownership: </b> {{property.own_type|title}}</p>
+
+        </div><!-- / project-info-box -->
+    </div><!-- / column -->
+
+
+</div>
+{% endblock %}

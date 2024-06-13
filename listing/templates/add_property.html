@@ -1,0 +1,126 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'add_property.css' %}">{% endblock css %}
+
+{% block content %}
+<form class="container p-5 mt-2" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>Address</h2>
+    <div class="row">
+        <div class="col">
+            Address Line 1:
+            <input class="form-control" type="text" name="address_1" required />
+        </div>
+        <div class="col">
+            Address Line 2:
+            <input class="form-control" type="text" name="address_2" required />
+        </div>
+        <div class="col">
+            Address Line 3:
+            <input class="form-control" type="text" name="address_3" required />
+        </div>
+        <div class="col">
+            Address Line 4:
+            <input class="form-control" type="text" name="address_4" required />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Pincode:
+            <input class="form-control" type="number" name="pincode" required />
+        </div>
+        <div class="col">
+            City:
+            <input class="form-control" type="text" name="city" required />
+        </div>
+        <div class="col">
+            State:
+            <input class="form-control" type="text" name="state" required />
+        </div>
+        <div class="col">
+            Nation:
+            <input class="form-control" type="text" name="nation" required />
+        </div>
+    </div>
+    <hr>
+    <h2>Dimensions and Rooms</h2>
+    <div class="row">
+        <div class="col">
+            Area (sq ft):
+            <input class="form-control" type="number" name="area" required />
+        </div>
+        <div class="col">
+            Lot Area:
+            <input placeholder="in (sq ft)" class="form-control" type="number" name="lot_area" required />
+        </div>
+        <div class="col">
+            Floors/Storeys:
+            <input class="form-control" type="number" name="no_of_floors" required />
+        </div>
+        <div class="col">
+            Ground to Floor Distance (ft):
+            <input class="form-control" type="number" name="ground_to_floor" required />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Bedrooms:
+            <input class="form-control" type="number" name="beds" required />
+        </div>
+        <div class="col">
+            Baths:
+            <input class="form-control" type="number" name="baths" required />
+        </div>
+        <div class="col">
+            Garage Spaces:
+            <input class="form-control" type="number" name="garage" required />
+        </div>
+    </div>
+    <hr>
+    <h2>General Details</h2>
+    <div class="row">
+        <div class="col">
+            Price (₹):
+            <input class="form-control" type="number" name="price" required />
+        </div>
+        <div class="col">
+            Year Built:
+            <input class="form-control" type="number" name="year_built" required />
+        </div>
+        <div class="row">
+        <div class="mt-2 mb-2 col" for="furnished">
+            <input class="form-check-input" type="checkbox" id="furnished" name="furnished" value="True" />
+            Furnished
+        </div>
+        <div class="mt-2 mb-2 col">
+            <input class="form-check-input" type="checkbox" id="hidden" name="hidden" value="True" />
+            Hidden?
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col">Buy/Rent
+            <select class="form-control" id="own_type" name="own_type">
+                <option value="buy">Buy</option>
+                <option value="rent">Rent</option>
+            </select>
+        </div>
+        <div class="col">House Type
+            <select class="select form-control" id="house_type" name="house_type">
+                <option value="flat">Apartment/Flat</option>
+                <option value="house">Single Family House</option>
+                <option value="condonium">Condonium</option>
+                <option value="bungalow">Bungalow</option>
+            </select>
+        </div>
+    </div>
+    <p>
+        Images
+        <input type="file" class="form-control" name="images" required />
+    </p>
+    <p>Description</p>
+    <textarea class="form-control" name="desc" required></textarea>
+    <hr>
+    <input class="btn btn-outline-success w-100" type="submit">
+</form>
+{% endblock %}

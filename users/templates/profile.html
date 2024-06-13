@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          {% if prof.profile_picture %}
+          <img src="{{prof.profile_picture.url}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+          {%else%}
+          <img src="" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+          {% endif %}
+          <h5 class="my-3">{{user.first_name}}</h5>
+          <p class="text-muted mb-1">@{{user.username}}</p>
+          <a href="/users/profileupdate"><button class="btn btn-outline-success w-100">Edit profile</button></a>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          {% if user.is_superuser %}
+          <a href="/add/"><button class="btn btn-outline-success w-100">Add Property</button></a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Full Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user.first_name}} {{user.last_name}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user.email}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Phone</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{prof.phone_number}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Address</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{prof.address}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4 mb-md-0">
+            <div class="card-body">
+              <p class="mb-4">Wishlisted Listings</p>
+              <ul id="wishlist1" class="list-group list-group-flush">
+                {% for i in wishs %}
+                <li class="list-group-item d-flex ustify-content-between align-items-start">
+                  <div class="ms-2 me-auto" style="text-decoration: none;">
+                    <a class="text-decoration-none text-body" href="{% url 'detail' i.id %}">
+                      <div class=""><b>{{i.location.address_2}} {{i.location.address_3}} {{i.location.address_4}}</b>
+                        ({{i.location.pincode}})</div>
+                      &nbsp;&nbsp;{{i.dimensions.beds}} beds | {{i.dimensions.baths}} baths | {{i.dimensions.garage}}
+                      garages |
+                  </div>
+                  </a>
+                  <form method="POST" class="del_wishlist" id="del_wishlist">
+                    {% csrf_token %}
+                    <input type="text" value="{{i.id}}" id='id' name="id" hidden />
+                    <button type="submit" class="btn btn-outline-danger">X</button>
+                  </form>
+                </li>
+                {% endfor %}
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.del_wishlist').on('submit', function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "del_wishlist" %}', // The URL to the Django view
+        data: {
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          id: $('#id').val()
+        }, // Serialize form data
+        success: function (response) {
+          $('#responseMessage').html(response.message); // Display response message
+          console.log(response)
+          Object.keys(response).forEach(key => {
+            console.log(`${key}: ${response[key].fields}`);
+            
+          });
+
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX error:', status, error);
+        }
+      });
+    });
+  }); 
+</script>
+{% endblock content %}

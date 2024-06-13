@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'login.css' %}">{% endblock css %}
+{% block content %}
+<div class="cont border-top border-bottom my-2 mx-auto pb-2 px-5">
+	<p>{{message}}</p>
+	<form method="POST" novalidate>
+		{% csrf_token %}
+		<h2>Login</h2>
+		<hr/>
+		{{form.as_p}}
+		<input type="submit" value="Login" />
+	</form>
+</div>
+{% endblock content %}

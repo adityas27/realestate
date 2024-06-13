@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% load humanize %} 
+{% block content %}
+    <div class="container mt-4">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for prop in props %}
+        <div class="col">
+          <div class="card h-100">
+                  <img class="card-img-top p-4" style="height: 400px;" src="{{ prop.thumbnail.url }}" alt="Card image cap">
+                  <div class="card-body">
+                <h5 class="card-title">₹ {{prop.price|intword}}</h5>
+                <p class="card-text"> {{prop.dimensions.beds}} beds-{{prop.dimensions.baths}} baths-{{prop.dimensions.garage}} garage</p>
+                <p class="card-text"> {{prop.location.address_1}} {{prop.location.address_2}} {{prop.location.address_3}} {{prop.location.address_4}} {{prop.location.pincode}}</p>
+              </div>
+              <div class="card-footer">
+                <span><a href="{% url 'detail' prop.id %}"><button class="btn btn-outline-success">Take a look</button></a></span>
+                <span><button class="btn btn-outline-success">Whislist</button></span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+
+{% endblock %}
