@@ -58,3 +58,14 @@ class Picture(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, primary_key=False)
     image = models.ImageField(upload_to=f'property_image')
     date_time = models.DateTimeField(auto_now=True, editable=False)
+
+class ContactForm(models.Model):
+    id = models.IntegerField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, related_name='filed_by_%(class)s_related', on_delete=models.CASCADE, null=True, primary_key=False)
+    prop = models.ForeignKey(Property, on_delete=models.CASCADE, null=True)
+    message = models.TextField(default="")
+    ph_number = models.IntegerField(null=False)
+    email = models.EmailField()
+    done = models.BooleanField(default=False)
+    marked_by = models.OneToOneField(User, related_name='marked_by_%(class)s_related', on_delete=models.CASCADE, null=True, primary_key=False)
+    date = models.DateTimeField(auto_now=True, editable=False)

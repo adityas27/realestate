@@ -6,6 +6,9 @@
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
     integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<div class=" container w-50 mt-2 message">
+
+</div>
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-7">
@@ -16,13 +19,13 @@
                 <p><b>Details:</b> {{property.dimensions.beds}} bed(s) - {{property.dimensions.baths}} bath(s) -
                     {{property.dimensions.garage}} garage(s)</p>
             </div><!-- / project-info-box -->
-            
+
         </div><!-- / column -->
         <div class="col-md-5">
             <div class="container w-50 mb-5">
                 <form method="POST" id="add_wishlist">
                     {% csrf_token %}
-                    <input type="hidden" value="{{property.id}}" id="id"/>
+                    <input type="hidden" value="{{property.id}}" id="id" />
                     <button type="submit" class="btn btn-outline-success w-100 mb-2">Wishlist</button>
                 </form>
                 {% if user.is_superuser %}
@@ -83,26 +86,32 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-            $('#add_wishlist').on('submit', function(e) {
-                e.preventDefault(); // Prevent the default form submission
+    $(document).ready(function () {
+        $('#add_wishlist').on('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url "wishlist" %}', // The URL to the Django view
-                    data: {
-                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                        id:$('#id').val()
-                    }, // Serialize form data
-                    success: function(response) {
-                        $('#responseMessage').html(response.message); // Display response message
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX error:', status, error);
-                    }
-                });
+            $.ajax({
+                type: 'POST',
+                url: '{% url "wishlist" %}', // The URL to the Django view
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    id: $('#id').val()
+                }, // Serialize form data
+                success: function (response) {
+                    console.log(response)
+                    $('.message').html(`
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>${response}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+                        `); // Display response message
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX error:', status, error);
+                }
             });
-        }); 
+        });
+    }); 
 </script>
- 
+
 {% endblock %}

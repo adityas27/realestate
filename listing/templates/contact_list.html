@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="message"></div>
+<table class="table table-striped mt-5">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Email ID</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for contact in tobecontacted %}
+    
+        <tr id="row{{contact.id}}">
+            <th scope="row">{{forloop.counter}}</th>
+            <td><a href="{% url 'detail' contact.prop.id%}">{{contact.prop.id}}</a></td>
+            <td>{{contact.ph_number}}</td>
+            <td>{{contact.email}}</td>
+            <td><form method="POST" class="contacted">
+                {% csrf_token %}
+                <input value="{{contact.id}}" id="id" class="id" name="id" hidden />
+                <button type="submit" value="{{contact.id}}" class="btn btn-outline-primary button" data-id="{{contact.id}}">Done</button></td>
+            </form>
+                
+        </tr>
+    
+    {% endfor %}
+</tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.contacted').on('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission
+            data1 = new FormData(e.target)
+            $.ajax({
+                type: 'POST',
+                url: '{% url "mark_done" %}', // The URL to the Django view
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    id: [...data1.entries()][1][1]
+                }, // Serialize form data
+                success: function (response) {
+                    $('.message').html(`
+                            HEY
+                        `); // Display response message
+                    $(`#row${[...data1.entries()][1][1]}`).remove();
+                    },
+                error: function (xhr, status, error) {
+                    console.error('AJAX error:', status, error);
+                }
+            });
+        });
+    }); 
+</script>
+{% endblock content%}

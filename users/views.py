@@ -71,9 +71,10 @@ def profile(request):
     user = request.user
     prof = Profile.objects.get(user=user)
     wishs = []
-    for i in prof.wishlist:
-        prop = Property.objects.get(id=i)
-        wishs.append(prop)
+    if prof.wishlist:
+        for i in prof.wishlist:
+            prop = Property.objects.get(id=i)
+            wishs.append(prop)
     return render(request,'profile.html',{'user': user, 'prof':prof, 'wishs':wishs})
 
 def sign_up(request):

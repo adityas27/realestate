@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container py-5">
   <div class="row">
@@ -15,13 +16,16 @@
           <a href="/users/profileupdate"><button class="btn btn-outline-success w-100">Edit profile</button></a>
         </div>
       </div>
+      
+      {% if user.is_superuser %}
       <div class="card mb-4">
+        <h3 style="font-weight: 100;" class="mx-3">Admin Actions</h3>
         <div class="card-body text-center">
-          {% if user.is_superuser %}
           <a href="/add/"><button class="btn btn-outline-success w-100">Add Property</button></a>
-          {% endif %}
+          <a href="/viewcontact"><button class="btn btn-outline-success w-100 mt-3">Callback Requests</button></a>
         </div>
       </div>
+      {% endif %}
     </div>
     <div class="col-lg-8">
       <div class="card mb-4">
@@ -68,9 +72,9 @@
           <div class="card mb-4 mb-md-0">
             <div class="card-body">
               <p class="mb-4">Wishlisted Listings</p>
-              <ul id="wishlist1" class="list-group list-group-flush">
+              <ul id="wishlist1" class="wishlist1 list-group list-group-flush">
                 {% for i in wishs %}
-                <li class="list-group-item d-flex ustify-content-between align-items-start">
+                <li id="{{i.id}}" class="list-group-item d-flex ustify-content-between align-items-start">
                   <div class="ms-2 me-auto" style="text-decoration: none;">
                     <a class="text-decoration-none text-body" href="{% url 'detail' i.id %}">
                       <div class=""><b>{{i.location.address_2}} {{i.location.address_3}} {{i.location.address_4}}</b>
@@ -80,7 +84,6 @@
                   </div>
                   </a>
                   <form method="POST" class="del_wishlist" id="del_wishlist">
-                    {% csrf_token %}
                     <input type="text" value="{{i.id}}" id='id' name="id" hidden />
                     <button type="submit" class="btn btn-outline-danger">X</button>
                   </form>
@@ -97,32 +100,5 @@
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $('.del_wishlist').on('submit', function (e) {
-      e.preventDefault(); // Prevent the default form submission
-
-      $.ajax({
-        type: 'POST',
-        url: '{% url "del_wishlist" %}', // The URL to the Django view
-        data: {
-          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-          id: $('#id').val()
-        }, // Serialize form data
-        success: function (response) {
-          $('#responseMessage').html(response.message); // Display response message
-          console.log(response)
-          Object.keys(response).forEach(key => {
-            console.log(`${key}: ${response[key].fields}`);
-            
-          });
-
-        },
-        error: function (xhr, status, error) {
-          console.error('AJAX error:', status, error);
-        }
-      });
-    });
-  }); 
-</script>
+<script src="{% static 'remove.js' %}"></script>
 {% endblock content %}
